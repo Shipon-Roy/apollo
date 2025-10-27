@@ -102,7 +102,7 @@ export default function Navbar() {
             Get Demo
           </button>
           <button className="px-4 py-2 bg-yellow-300 text-black rounded-lg font-semibold hover:bg-gray-300 transition">
-            Sign up free
+            Sign up for free
           </button>
         </div>
 
