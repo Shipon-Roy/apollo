@@ -1,6 +1,27 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Container from "../Container";
+import Image from "next/image";
+import {
+  FaRegStar,
+  FaTasks,
+  FaNetworkWired,
+  FaRegClock,
+  FaBell,
+} from "react-icons/fa";
+import {
+  MdOutlineMail,
+  MdOutlineEditCalendar,
+  MdScheduleSend,
+  MdContacts,
+  MdOutlineManageAccounts,
+  MdDatasetLinked,
+  MdOutlineNoteAlt,
+  MdOutlinePhoneInTalk,
+  MdInsertChartOutlined,
+} from "react-icons/md";
+import { TfiReload } from "react-icons/tfi";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 export default function FeaturesSection() {
   const features = [
@@ -29,30 +50,169 @@ export default function FeaturesSection() {
       icon: "/assets/deals/crm_icon4.svg",
     },
   ];
+  const scrrolfeatures = [
+    {
+      button: "Outbound",
+      title: "Fuel smarter selling with always-fresh data",
+      list: {
+        list1: {
+          licon: <FaRegStar />,
+          litext: "AI-powered, multichannel campaigns in a click",
+        },
+        list2: {
+          licon: <MdOutlineMail />,
+          litext: "Built-in email deliverability guardrails",
+        },
+        list3: {
+          licon: <FaTasks />,
+          litext: "Prioritized task lists to maximize selling",
+        },
+        list4: {
+          licon: <FaNetworkWired />,
+          litext: "Workflow automations to identify and scale what works",
+        },
+      },
+      icon: "/assets/deals/pipeline_builder_1.svg",
+    },
+    {
+      button: "Inbound",
+      title: "Qualify and act on inbound leads in seconds",
+      list: {
+        list1: {
+          licon: <FaRegClock />,
+          litext: "AI-powered, multichannel campaigns in a click",
+        },
+        list2: {
+          licon: <TfiReload />,
+          litext: "Built-in email deliverability guardrails",
+        },
+        list3: {
+          licon: <MdOutlineEditCalendar />,
+          litext: "Prioritized task lists to maximize selling",
+        },
+        list4: {
+          licon: <MdScheduleSend />,
+          litext: "Workflow automations to identify and scale what works",
+        },
+      },
+      icon: "/assets/deals/meeting_assistant_icon2.svg",
+    },
+    {
+      button: "Data Enrichment",
+      title: "Fuel smarter selling with always-fresh data",
+      list: {
+        list1: {
+          licon: <MdContacts />,
+          litext: "AI-powered, multichannel campaigns in a click",
+        },
+        list2: {
+          licon: <IoMdCheckmarkCircleOutline />,
+          litext: "Built-in email deliverability guardrails",
+        },
+        list3: {
+          licon: <MdOutlineManageAccounts />,
+          litext: "Prioritized task lists to maximize selling",
+        },
+        list4: {
+          licon: <MdDatasetLinked />,
+          litext: "Workflow automations to identify and scale what works",
+        },
+      },
+      icon: "/assets/deals/data_enrichment_icon3.svg",
+    },
+    {
+      button: "Deal Execution",
+      title: "Capture every conversation, accelerate every deal",
+      list: {
+        list1: {
+          licon: <MdOutlineNoteAlt />,
+          litext: "AI-powered, multichannel campaigns in a click",
+        },
+        list2: {
+          licon: <MdOutlinePhoneInTalk />,
+          litext: "Built-in email deliverability guardrails",
+        },
+        list3: {
+          licon: <FaBell />,
+          litext: "Prioritized task lists to maximize selling",
+        },
+        list4: {
+          licon: <MdInsertChartOutlined />,
+          litext: "Workflow automations to identify and scale what works",
+        },
+      },
+      icon: "/assets/deals/crm_icon4.svg",
+    },
+  ];
 
   const [activeTab, setActiveTab] = useState(0);
-  const containerRef = useRef(null);
+  const sectionRef = useRef(null);
+  const scrollLock = useRef(false);
 
-  // Handle mouse movement over the tab area
-  const handleMouseMove = (e) => {
-    if (!containerRef.current) return;
+  const handleWheel = (e) => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left; // mouse X relative to container
-    const width = rect.width;
-    const sectionWidth = width / features.length;
+    const rect = section.getBoundingClientRect();
+    const isInView =
+      rect.top <= window.innerHeight * 0.6 &&
+      rect.bottom >= window.innerHeight * 0.4;
 
-    const index = Math.floor(x / sectionWidth);
-    setActiveTab(index >= 0 && index < features.length ? index : 0);
+    if (!isInView) return;
+
+    const delta = e.deltaY;
+    if (Math.abs(delta) < 40) return; // ছোট scroll ignore
+
+    const scrollingDown = delta > 0;
+    const scrollingUp = delta < 0;
+    const atFirst = activeTab === 0;
+    const atLast = activeTab === features.length - 1;
+
+    // edges এ normal scroll allow
+    if ((scrollingDown && atLast) || (scrollingUp && atFirst)) return;
+
+    e.preventDefault();
+
+    // scroll lock চেক করো
+    if (scrollLock.current) return;
+    scrollLock.current = true;
+
+    // scroll direction অনুযায়ী tab পরিবর্তন
+    if (scrollingDown && !atLast) {
+      setActiveTab((prev) => Math.min(prev + 1, features.length - 1));
+    } else if (scrollingUp && !atFirst) {
+      setActiveTab((prev) => Math.max(prev - 1, 0));
+    }
+
+    // 1.5 সেকেন্ড পর unlock
+    setTimeout(() => {
+      scrollLock.current = false;
+    }, 1500);
   };
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    section.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      section.removeEventListener("wheel", handleWheel);
+      scrollLock.current = false;
+    };
+  }, [activeTab]);
+
   return (
-    <div className="bg-[#ccc9c6]">
+    <div
+      ref={sectionRef}
+      className="bg-[#ccc9c6] min-h-screen flex flex-col justify-center overflow-hidden"
+    >
       <Container>
-        <div className="bg-white px-5 relative z-10">
-          <div className="flex flex-col gap-10 pt-16">
+        <div className="bg-white px-5 py-12 rounded-xl shadow-sm">
+          <div className="flex flex-col gap-10">
+            {/* Heading */}
             <div className="mx-auto pb-3 w-full max-w-[852px] text-center">
-              <h5 className="text-4xl text-black">
+              <h5 className="text-4xl text-black font-semibold">
                 Everything you need, from finding <br /> leads to winning deals
               </h5>
               <p className="mt-4 text-md text-black">
@@ -61,67 +221,86 @@ export default function FeaturesSection() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {features.map((feature, idx) => (
+            {/* Feature Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-6">
+              {features.map((item, index) => (
                 <div
-                  key={idx}
-                  className="flex flex-col items-center justify-center bg-[#f7f5f2] gap-3 py-6 px-4 rounded-lg hover:shadow-lg transition-shadow duration-300"
+                  key={index}
+                  className={`rounded-lg p-6 transition-all duration-500 text-center bg-[#f7f5f2] hover:bg-gray-200 text-black`}
                 >
-                  <img
-                    src={feature.icon}
-                    alt={`${feature.title} icon`}
-                    className="w-12 aspect-square"
-                    loading="lazy"
-                  />
-                  <p className="text-xl text-black text-center">
-                    {feature.title}
-                  </p>
-                  <p className="text-sm text-center text-gray-500">
-                    {feature.description}
-                  </p>
+                  <div className="flex justify-center mb-4">
+                    <Image
+                      src={item.icon}
+                      width={80}
+                      height={80}
+                      alt={item.title}
+                      className="object-contain"
+                    />
+                  </div>
+                  <h3 className="text-xl  mb-2">{item.title}</h3>
+                  <p className="text-sm text-gray-500">{item.description}</p>
                 </div>
               ))}
             </div>
 
-            {/* Tab Buttons */}
-            <div className="flex justify-center gap-4 mt-12">
-              {features.map((feature, idx) => (
+            <div className="flex justify-center gap-4 mt-8">
+              {scrrolfeatures.map((feature, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveTab(idx)}
-                  className={`px-4 py-2 rounded-md font-medium transition-colors duration-300 ${
+                  className={`px-4 py-2 rounded-md font-medium transition-all duration-300 ${
                     activeTab === idx
-                      ? "bg-black text-white"
+                      ? "bg-black text-white scale-105"
                       : "bg-gray-200 text-black hover:bg-gray-300"
                   }`}
                 >
-                  {feature.title}
+                  {feature.button}
                 </button>
               ))}
             </div>
 
-            {/* Scroll-linked Tab Content */}
-            <div
-              ref={containerRef}
-              onMouseMove={handleMouseMove}
-              className="mt-8 flex flex-col md:flex-row items-center gap-8 cursor-pointer"
-            >
-              {/* Text Content */}
-              <div className="md:w-1/2">
-                <h3 className="text-2xl font-bold">
-                  {features[activeTab].title}
+            <div className="mt-12 flex flex-col md:flex-row items-center justify-center gap-8 select-none transition-all duration-700 ease-in-out h-[400px]">
+              <div className="md:w-1/2 transition-all duration-700 ease-in-out text-center md:text-left">
+                <h3 className="text-4xl text-black mb-4">
+                  {scrrolfeatures[activeTab].title}
                 </h3>
-                <p className="mt-4 text-gray-700">
-                  {features[activeTab].description}
-                </p>
+
+                <div className="my-20">
+                  <button className="px-4 py-2 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-600 transition mr-10">
+                    Get started for free
+                  </button>
+                  <button className="px-4 py-2 border border-gray-800  rounded-lg hover:bg-gray-300 text-gray-800 transition">
+                    Learn more
+                  </button>
+                </div>
+
+                <ul className="text-gray-700 text-md">
+                  <li className="flex items-center gap-2">
+                    <span>{scrrolfeatures[activeTab].list.list1.licon}</span>
+                    {scrrolfeatures[activeTab].list.list1.litext}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>{scrrolfeatures[activeTab].list.list2.licon}</span>
+                    {scrrolfeatures[activeTab].list.list2.litext}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>{scrrolfeatures[activeTab].list.list3.licon}</span>
+                    {scrrolfeatures[activeTab].list.list3.litext}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>{scrrolfeatures[activeTab].list.list4.licon}</span>
+                    {scrrolfeatures[activeTab].list.list4.litext}
+                  </li>
+                </ul>
               </div>
 
-              {/* Image */}
-              <div className="md:w-1/2 h-[50%]">
-                <img
-                  src={features[activeTab].icon}
-                  alt={features[activeTab].title}
-                  className="w-full h-[50%] object-contain"
+              <div className="md:w-1/2 flex justify-center transition-all duration-700 ease-in-out">
+                <Image
+                  src={scrrolfeatures[activeTab].icon}
+                  width={200}
+                  height={200}
+                  alt={scrrolfeatures[activeTab].title}
+                  className="object-contain transition-transform duration-500 ease-in-out hover:scale-105"
                 />
               </div>
             </div>
