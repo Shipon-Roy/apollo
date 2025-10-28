@@ -72,7 +72,7 @@ export default function FeaturesSection() {
           litext: "Workflow automations to identify and scale what works",
         },
       },
-      icon: "/assets/deals/pipeline_builder_1.svg",
+      icon: "/assets/deals/image1.webp",
     },
     {
       button: "Inbound",
@@ -80,22 +80,22 @@ export default function FeaturesSection() {
       list: {
         list1: {
           licon: <FaRegClock />,
-          litext: "AI-powered, multichannel campaigns in a click",
+          litext: "Anonymous visitor identification",
         },
         list2: {
           licon: <TfiReload />,
-          litext: "Built-in email deliverability guardrails",
+          litext: "Real-time form enrichment",
         },
         list3: {
           licon: <MdOutlineEditCalendar />,
-          litext: "Prioritized task lists to maximize selling",
+          litext: "Instant routing with built-in calendar and scheduler",
         },
         list4: {
           licon: <MdScheduleSend />,
-          litext: "Workflow automations to identify and scale what works",
+          litext: "Automated nurture & follow-up sequences",
         },
       },
-      icon: "/assets/deals/meeting_assistant_icon2.svg",
+      icon: "/assets/deals/image2.webp",
     },
     {
       button: "Data Enrichment",
@@ -103,22 +103,22 @@ export default function FeaturesSection() {
       list: {
         list1: {
           licon: <MdContacts />,
-          litext: "AI-powered, multichannel campaigns in a click",
+          litext: "210M+ contacts and 30M+ companies",
         },
         list2: {
           licon: <IoMdCheckmarkCircleOutline />,
-          litext: "Built-in email deliverability guardrails",
+          litext: "Verified emails & phone numbers for faster reach",
         },
         list3: {
           licon: <MdOutlineManageAccounts />,
-          litext: "Prioritized task lists to maximize selling",
+          litext: "Better targeting and personalization",
         },
         list4: {
           licon: <MdDatasetLinked />,
-          litext: "Workflow automations to identify and scale what works",
+          litext: "Clean data across your entire stack and CRM",
         },
       },
-      icon: "/assets/deals/data_enrichment_icon3.svg",
+      icon: "/assets/deals/image3.webp",
     },
     {
       button: "Deal Execution",
@@ -126,22 +126,22 @@ export default function FeaturesSection() {
       list: {
         list1: {
           licon: <MdOutlineNoteAlt />,
-          litext: "AI-powered, multichannel campaigns in a click",
+          litext: "Pre-meeting insights to prep in seconds",
         },
         list2: {
           licon: <MdOutlinePhoneInTalk />,
-          litext: "Built-in email deliverability guardrails",
+          litext: "AI-powered call summaries, follow-ups, and task creation",
         },
         list3: {
           licon: <FaBell />,
-          litext: "Prioritized task lists to maximize selling",
+          litext: "Pipeline boards & real-time deal alerts",
         },
         list4: {
           licon: <MdInsertChartOutlined />,
-          litext: "Workflow automations to identify and scale what works",
+          litext: "Conversation insights & performance dashboards for coaching",
         },
       },
-      icon: "/assets/deals/crm_icon4.svg",
+      icon: "/assets/deals/image1.webp",
     },
   ];
 
@@ -297,10 +297,10 @@ export default function FeaturesSection() {
               <div className="md:w-1/2 flex justify-center transition-all duration-700 ease-in-out">
                 <Image
                   src={scrrolfeatures[activeTab].icon}
-                  width={200}
+                  width={400}
                   height={200}
                   alt={scrrolfeatures[activeTab].title}
-                  className="object-contain transition-transform duration-500 ease-in-out hover:scale-105"
+                  className="object-contain transition-transform duration-500 ease-in-out hover:scale-105 rounded-2xl"
                 />
               </div>
             </div>
