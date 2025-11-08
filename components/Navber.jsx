@@ -525,7 +525,7 @@ export default function Navbar() {
                 </div>
               </div>
             </li>
-            <li>
+            <li className="px-4 py-2 text-[16px] font-medium text-black hover:text-gray-700">
               <Link href="/pricing" className="hover:text-gray-700">
                 Pricing
               </Link>
