@@ -538,7 +538,9 @@ export default function Navbar() {
           <Link href="/login">
             <Button variant="text">Sign in</Button>
           </Link>
-          <Button variant="outline">Get Demo</Button>
+          <Link href="/demo">
+            <Button variant="outline">Get Demo</Button>
+          </Link>
           <Link href="/signup">
             <Button variant="solid">Sign up for free</Button>
           </Link>

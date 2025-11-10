@@ -4,6 +4,8 @@ import Container from "../Container";
 import Tabs from "./Tabs";
 import BillingToggle from "./BillingToggle";
 import PricingCard from "./PricingCard";
+import InboundAddOn from "./Inbound";
+import WhatAreCredits from "./WhatAreCredits";
 
 const tabsData = [
   {
@@ -151,9 +153,9 @@ export default function PromoSection() {
   return (
     <div className="bg-[#ccc9c6] pb-10">
       <Container>
-        <div className="rounded-2xl bg-white p-20">
+        <div className="rounded-2xl bg-white ">
           {/* Heading + Subtext + Toggle */}
-          <div className="flex flex-col items-center justify-between gap-5 md:flex-row text-gray-900">
+          <div className="flex flex-col items-center justify-between gap-5 md:flex-row text-gray-900 p-20">
             <h3 className="antialiased text-center md:text-left text-4xl sm:text-5xl md:text-6xl xl:text-7xl leading-none tracking-tight text-gray-900 max-w-3xl">
               The all-in-one platform to grow your business
             </h3>
@@ -167,28 +169,32 @@ export default function PromoSection() {
           </div>
 
           {/* Tabs */}
-          <div className="relative flex flex-col items-start gap-4 rounded-lg border border-solid border-sand-20 px-4 py-3 font-abc-diatype xl:flex-row xl:items-center xl:gap-3 mt-10">
-            <div className="flex flex-col gap-1 text-black xl:whitespace-nowrap">
-              <p className="text-[16px] tablet:text-[18px] desktop:text-[20px] desktop-xl:text-[22px] leading-[130%] font-abc-diatype text-text-body">
-                Explore features by solutions:
-              </p>
-              <p className="text-[14px] desktop-xl:text-[16px] text-text-body">
-                All tiers include every solution
-              </p>
+          <div className="p-20">
+            <div className="relative flex flex-col items-start gap-4 rounded-lg border border-solid border-sand-20 px-4 py-3 font-abc-diatype xl:flex-row xl:items-center xl:gap-3 mt-10  ">
+              <div className="flex flex-col gap-1 text-black xl:whitespace-nowrap">
+                <p className="text-[16px] tablet:text-[18px] desktop:text-[20px] desktop-xl:text-[22px] leading-[130%] font-abc-diatype text-text-body">
+                  Explore features by solutions:
+                </p>
+                <p className="text-[14px] desktop-xl:text-[16px] text-text-body">
+                  All tiers include every solution
+                </p>
+              </div>
+              <Tabs
+                tabs={tabsData}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+              />
             </div>
-            <Tabs
-              tabs={tabsData}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
           </div>
 
           {/* Pricing Cards */}
-          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4 px-20">
             {pricingPlans.map((plan) => (
               <PricingCard key={plan.title} plan={plan} billing={billing} />
             ))}
           </div>
+          <InboundAddOn />
+          <WhatAreCredits />
         </div>
       </Container>
     </div>
